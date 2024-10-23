@@ -13,9 +13,9 @@ class SensorDataBatch(BaseModel):
 
 
 class SensorCreate(BaseModel):
-    sensor_type: int
-    description: int
-    location: int
+    sensor_type: str
+    description: str
+    location: str
 
 
 class SensorDailyStatsResponse(BaseModel):

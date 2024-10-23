@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, Depends, Body, status, Path
-from database.postgres import get_postgres
+from src.database.postgres import get_postgres
 from typing import Union, List
 from asyncpg import Pool
 from loguru import logger
 
-from models.sensor_models import (
+from src.models.sensor_models import (
     SensorCreate,
     SensorData,
     SensorDataBatch,
@@ -101,13 +101,6 @@ async def stream_sensor_data(
                 await conn.execute(
                     insert_query, sensor_id, sensor_data.value, sensor_data.timestamp
                 )
-
-    if sensor_id is None:
-        logger.error("Failed to create sensor.")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to create sensor",
-        )
 
     logger.info(f"Sensor data streamed successfully for sensor_id: {sensor_id}")
     return {"message": "Sensor data streamed successfully."}
